@@ -1,5 +1,6 @@
 #include "NetworkManager.h"
 #include <QDebug>
+#include <QMessageBox>
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent), server(nullptr), socket(nullptr), clientConnection(nullptr) {}
 
@@ -9,8 +10,11 @@ void NetworkManager::startServer(quint16 port) {
 
     if (!server->listen(QHostAddress::Any, port)) {
         qDebug() << "Server could not start on port" << port;
+        QMessageBox::critical(nullptr, "Błąd", "Nie udało się uruchomić serwera na porcie " + QString::number(port));
     } else {
-        qDebug() << "Server started on port" << port;
+        QString msg = "Serwer uruchomiony na porcie " + QString::number(port);
+        qDebug() << msg;
+        QMessageBox::information(nullptr, "Serwer", msg);
         emit serverStarted();
     }
 }
@@ -24,9 +28,13 @@ void NetworkManager::connectToServer(const QString &host, quint16 port) {
     socket->connectToHost(host, port);
 
     if (!socket->waitForConnected(3000)) {
-        qDebug() << "Connection failed";
+        QString failMsg = "Nie udało się połączyć z serwerem pod adresem:\n" + host + "\nPort: " + QString::number(port);
+        qDebug() << failMsg;
+        QMessageBox::critical(nullptr, "Błąd połączenia", failMsg);
     } else {
-        qDebug() << "Connected to server at" << host << ":" << port;
+        QString successMsg = "Połączono z serwerem!\nAdres: " + host + "\nPort: " + QString::number(port);
+        qDebug() << successMsg;
+        QMessageBox::information(nullptr, "Sukces", successMsg);
         socket->write("Hello from client\n");
         emit clientConnected();
     }

@@ -21,8 +21,8 @@ class NetworkManager : public QObject {
 
 public:
     explicit NetworkManager(QObject *parent = nullptr);
-    void startServer(quint16 port = 12345);
-    void connectToServer(const QString &host = "127.0.0.1", quint16 port = 12345);
+    void startServer(quint16 port);
+    void connectToServer(const QString &host , quint16 port);
     void sendMessage(const QString &msg);
 
 signals:

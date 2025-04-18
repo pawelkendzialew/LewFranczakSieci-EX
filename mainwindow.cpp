@@ -43,17 +43,38 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     connect(ui->pushButton_startServer, &QPushButton::clicked, this, [=]() {
-        networkManager->startServer();
+        bool ok;
+        QString portStr = ui->lineEdit_port->text().trimmed(); // lub lineEdit_serverPort
+        quint16 port = portStr.toUShort(&ok);
+
+        if (!ok || port == 0) {
+            QMessageBox::warning(this, "Błąd portu", "Wprowadź poprawny numer portu dla serwera.");
+            return;
+        }
+
+        networkManager->startServer(port);
     });
 
     connect(ui->pushButton_connectClient, &QPushButton::clicked, this, [=]() {
-        networkManager->connectToServer();
-    });
-    connect(ui->pushButton_sendCommand, &QPushButton::clicked, this, [=]() {
-        QString msg = ui->lineEdit_command->text();
-        if (networkManager && !msg.isEmpty()) {
-            networkManager->sendMessage(msg);
+        QString ip = ui->lineEdit_ip->text().trimmed();
+        QString portStr = ui->lineEdit_port->text().trimmed();
+
+        if (ip.isEmpty()) {
+            QMessageBox::warning(this, "Błąd IP", "Wprowadź poprawny adres IP.");
+            return;
         }
+
+        bool ok;
+        quint16 port = portStr.toUShort(&ok);
+        if (!ok || port == 0) {
+            QMessageBox::warning(this, "Błąd portu", "Wprowadź poprawny numer portu.");
+            return;
+        }
+
+        networkManager->connectToServer(ip, port);
+        //QString msg = "Próba połączenia z IP: " + ip + "\nPort: " + QString::number(port);
+        //qDebug() << msg;
+        //QMessageBox::information(this, "Połączenie klienta", msg);
     });
 
 

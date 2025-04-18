@@ -6,7 +6,6 @@
 namespace Ui {
 class ARXwindow;
 }
-
 class ARXwindow : public QDialog
 {
     Q_OBJECT
