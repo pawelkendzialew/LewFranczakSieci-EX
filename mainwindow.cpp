@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     app->b="0,6";
 
     ui->setupUi(this);
+    connect(ui->START, &QPushButton::clicked, this, &MainWindow::on_START_clicked);
+    connect(ui->STOP, &QPushButton::clicked, this, &MainWindow::on_STOP_clicked);
     networkManager = new NetworkManager(this);
 
     connect(networkManager, &NetworkManager::serverStarted, this, [=]() {
