@@ -68,6 +68,9 @@ private slots:
 
 private:
     NetworkManager* networkManager;
+    void zablokujGUIdlaSerwera();
+    void zablokujGUIdlaKlienta();
+
     void setUIFromApp();
     void clearAllSeries();
     void resetAxes();

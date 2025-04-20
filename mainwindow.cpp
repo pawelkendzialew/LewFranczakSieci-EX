@@ -34,6 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     networkManager = new NetworkManager(this);
 
+    connect(networkManager, &NetworkManager::serverStarted, this, [=]() {
+        zablokujGUIdlaSerwera();
+    });
+
+    connect(networkManager, &NetworkManager::clientConnected, this, [=]() {
+        zablokujGUIdlaKlienta();
+    });
+
     connect(networkManager, &NetworkManager::commandReceived, this, [=](const QString &cmd) {
         if (cmd == "START") {
             on_pushButton_clicked(); // albo ui->START->click();
@@ -294,6 +302,39 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::zablokujGUIdlaSerwera()
+{
+    ui->comboBox->setEnabled(false);
+    ui->SPINBOXAMPLITUDA->setEnabled(false);
+    ui->SPINBOXINTERWAL->setEnabled(false);
+    ui->SPINBOXWYPELNIENIE->setEnabled(false);
+    ui->SPINBOXOKRES->setEnabled(false);
+    ui->SPINBOXKD->setEnabled(false);
+    ui->SPINBOXKI->setEnabled(false);
+    ui->SPINBOXKP->setEnabled(false);
+    ui->ResetCalk->setEnabled(false);
+    ui->ResetRurz->setEnabled(false);
+    ui->comboBox_2->setEnabled(false);
+
+    ui->lineEdit_ip->setEnabled(false);
+    ui->lineEdit_port->setEnabled(false);
+    ui->pushButton_startServer->setEnabled(false);
+    ui->pushButton_connectClient->setEnabled(false);
+
+
+}
+
+void MainWindow::zablokujGUIdlaKlienta()
+{
+
+
+    ui->lineEdit_ip->setEnabled(false);
+    ui->lineEdit_port->setEnabled(false);
+    ui->pushButton_connectClient->setEnabled(false);
+    ui->pushButton_startServer->setEnabled(false);
+
+
+}
 
 
 void MainWindow::setUIFromApp()
