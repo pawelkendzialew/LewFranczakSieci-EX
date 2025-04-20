@@ -39,52 +39,6 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,0,0,0" columnstretch="0,0,0">
-    <item row="0" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QWidget" name="chartContainer_3" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>200</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: rgba(0, 0, 0, 0.4)
-</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="chartContainer" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>200</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: rgba(0, 0, 0, 0.4)
-</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="chartContainer_2" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>200</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: rgba(0, 0, 0, 0.4)
-</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
     <item row="0" column="2">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -163,46 +117,15 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QLabel" name="LABELINTERWAL">
-          <property name="text">
-           <string>Interwał</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="SPINBOXINTERWAL">
-          <property name="minimum">
-           <number>50</number>
-          </property>
-          <property name="maximum">
-           <number>2000</number>
-          </property>
-          <property name="singleStep">
-           <number>50</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
     <item row="3" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QGridLayout" name="BTN">
         <item row="0" column="0">
          <widget class="QPushButton" name="START">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -215,29 +138,28 @@
             <height>100</height>
            </size>
           </property>
+          <property name="visible">
+           <bool>true</bool>
+          </property>
           <property name="styleSheet">
            <string notr="true">background: transparent</string>
           </property>
           <property name="text">
            <string>START</string>
           </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="RESET">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
-          <property name="text">
-           <string>RESET</string>
+          <property name="default">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
          <widget class="QPushButton" name="STOP">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -272,12 +194,38 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="RESET">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>RESET</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ArxEdit">
           <property name="text">
            <string>ARX EDIT</string>
           </property>
@@ -331,6 +279,19 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
            <string>wybór calkowania</string>
@@ -344,6 +305,19 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QPushButton" name="ResetCalk">
           <property name="text">
@@ -362,6 +336,19 @@
       </item>
       <item>
        <layout class="QVBoxLayout" name="KP">
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLabel" name="LABELKP">
           <property name="minimumSize">
@@ -411,6 +398,19 @@
       <item>
        <layout class="QVBoxLayout" name="KI">
         <item>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="LABELKI">
           <property name="minimumSize">
            <size>
@@ -453,6 +453,19 @@
       <item>
        <layout class="QVBoxLayout" name="KD">
         <item>
+         <spacer name="verticalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="LABELKD">
           <property name="minimumSize">
            <size>
@@ -487,29 +500,8 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <widget class="QPushButton" name="pushButton_startServer">
-          <property name="text">
-           <string>Uruchom</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_connectClient">
-          <property name="text">
-           <string>Połącz</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_sendCommand">
-          <property name="text">
-           <string>Wyślij wiadomość</string>
-          </property>
-         </widget>
-        </item>
-        <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="9" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
            <string>Wpisz wiadomość którą chcesz przesłać poniżej</string>
@@ -519,10 +511,47 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="4" column="0">
+         <widget class="QLineEdit" name="lineEdit_port"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButton_connectClient">
+          <property name="text">
+           <string>Połącz</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Wpisz port poniżej</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QPushButton" name="pushButton_sendCommand">
+          <property name="text">
+           <string>Wyślij wiadomość</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton_startServer">
+          <property name="text">
+           <string>Uruchom</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0">
          <widget class="QLineEdit" name="lineEdit_command"/>
         </item>
-        <item>
+        <item row="8" column="0">
+         <widget class="QLineEdit" name="lineEdit_ip"/>
+        </item>
+        <item row="7" column="0">
          <widget class="QLabel" name="label_6">
           <property name="layoutDirection">
            <enum>Qt::LayoutDirection::LeftToRight</enum>
@@ -535,13 +564,71 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit_ip"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_7">
+        <item row="13" column="0">
+         <widget class="QPushButton" name="BTNTRYB">
           <property name="text">
-           <string>Wpisz port poniżej</string>
+           <string>Tryb</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QWidget" name="chartContainer_3" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: rgba(0, 0, 0, 0.4)
+</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="chartContainer" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: rgba(0, 0, 0, 0.4)
+</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="chartContainer_2" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: rgba(0, 0, 0, 0.4)
+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLabel" name="LABELINTERWAL">
+          <property name="text">
+           <string>Interwał</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -549,7 +636,20 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_port"/>
+         <widget class="QSpinBox" name="SPINBOXINTERWAL">
+          <property name="minimum">
+           <number>50</number>
+          </property>
+          <property name="maximum">
+           <number>2000</number>
+          </property>
+          <property name="singleStep">
+           <number>50</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

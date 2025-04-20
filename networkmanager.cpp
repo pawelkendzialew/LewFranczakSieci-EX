@@ -48,21 +48,26 @@ void NetworkManager::onNewConnection() {
 
 void NetworkManager::onReadyRead() {
     QTcpSocket *senderSocket = qobject_cast<QTcpSocket *>(sender());
-    if (senderSocket) {
-        QByteArray data = senderSocket->readAll();
-        qDebug() << "Received data:" << data;
-        QString msg = QString(data).trimmed();
-        qDebug() << "Received command:" << msg;
+    if (!senderSocket) return;
 
-        if (msg == "START") {
-            emit commandReceived("START");
-        } else if (msg == "STOP") {
-            emit commandReceived("STOP");
-        } else {
-            emit messageReceived(msg);  // logujemy inne
-        }
+    QByteArray data = senderSocket->readAll();
+    QString msg = QString(data).trimmed();
+
+    qDebug() << "Odebrano wiadomość:" << msg;
+
+    if (msg.startsWith("U=")) {
+        double u = msg.mid(2).toDouble();
+        emit receivedU(u);  // serwer
+    } else if (msg.startsWith("Y=")) {
+        double y = msg.mid(2).toDouble();
+        emit receivedY(y);  // klient
+    } else if (msg == "START" || msg == "STOP") {
+        emit commandReceived(msg);
+    } else {
+        emit messageReceived(msg);
     }
 }
+
 void NetworkManager::sendMessage(const QString &msg) {
     if (socket && socket->isOpen()) {
         socket->write(msg.toUtf8());

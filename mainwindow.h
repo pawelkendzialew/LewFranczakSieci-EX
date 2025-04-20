@@ -66,10 +66,16 @@ private slots:
 
     void on_comboBox_2_currentIndexChanged(int index);
 
+    void handleReceivedU(double u);
+    void handleReceivedY(double y);
+    void on_BTNTRYB_clicked();
+
 private:
     NetworkManager* networkManager;
     void zablokujGUIdlaSerwera();
     void zablokujGUIdlaKlienta();
+    void odblokujGUIObiektuLokalnie();
+    bool trybSieciowy = false;
 
     void setUIFromApp();
     void clearAllSeries();

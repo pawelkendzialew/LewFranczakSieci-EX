@@ -31,8 +31,41 @@ MainWindow::MainWindow(QWidget *parent)
     app->a="-0.4";
     app->b="0,6";
 
-    ui->setupUi(this);
+
+
     networkManager = new NetworkManager(this);
+    connect(ui->ArxEdit, &QPushButton::clicked, this, [=]() {
+        ARXwindow *oknoARX = new ARXwindow(this, app); // <-- tu przekazujemy app!
+        oknoARX->setAttribute(Qt::WA_DeleteOnClose);   // automatyczne usuwanie po zamknięciu
+        oknoARX->show();
+    });
+
+    connect(networkManager, &NetworkManager::receivedU, this, [=](double u) {
+
+        BuforDanych* bufor = new BuforDanych();
+        bufor->setU(u);
+        bufor->setA(app->a);
+        bufor->setB(app->b);
+        bufor->setZaklucenie(app->arx->generateDisturbance());
+        bufor->k = app->getk();
+        bufor->setY(app->getoldY());
+        bufor->setW(0); // brak wartości zadanej
+
+        app->data.push_back(bufor);
+
+        double y = app->arx->calcAll(app->data);
+        app->data.back()->setY(y);
+        app->setoldY(y);
+
+        networkManager->sendMessage("Y=" + QString::number(y));
+    });
+
+    connect(networkManager, &NetworkManager::receivedY, this, [=](double y) {
+        if (!app->data.empty()) {
+            app->data.back()->setY(y);
+            app->setoldY(y);
+        }
+    });
 
     connect(networkManager, &NetworkManager::serverStarted, this, [=]() {
         zablokujGUIdlaSerwera();
@@ -85,7 +118,8 @@ MainWindow::MainWindow(QWidget *parent)
         //QMessageBox::information(this, "Połączenie klienta", msg);
     });
 
-
+    connect(networkManager, &NetworkManager::receivedU, this, &MainWindow::handleReceivedU);
+    connect(networkManager, &NetworkManager::receivedY, this, &MainWindow::handleReceivedY);
 
     ui->comboBox->addItem("Jednostkowy", QVariant(0));
     ui->comboBox->addItem("Sinusoidalny", QVariant(1));
@@ -294,6 +328,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, [this]() {
         app->symulacjaStep();
         updateChart();
+        if (!app->data.empty()) {
+            double u = app->data.back()->getU();
+            networkManager->sendMessage("U=" + QString::number(u));
+        }
     });
 }
 
@@ -302,6 +340,36 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::handleReceivedU(double u) {
+    if (!trybSieciowy) return;
+
+    app->amplituda = u;
+    app->symulacjaStep();
+    double y = app->getoldY();
+    networkManager->sendMessage(QString("Y=%1").arg(y));
+}
+
+void MainWindow::handleReceivedY(double y) {
+    if (!trybSieciowy) return;
+
+    double zadana = app->syg->generateSignal(app->sygnal);
+    double u = app->Pid->obliczSprzezenie(zadana, y);
+    app->oldY = y;
+    networkManager->sendMessage(QString("U=%1").arg(u));
+}
+void MainWindow::on_BTNTRYB_clicked()
+{
+    trybSieciowy = !trybSieciowy;
+
+    if (trybSieciowy) {
+        zablokujGUIdlaKlienta();
+         ui->BTNTRYB->setText("Przełącz na tryb lokalny");
+    } else {
+        odblokujGUIObiektuLokalnie();
+        ui->BTNTRYB->setText("Przełącz na tryb sieciowy");
+    }
+
+}
 void MainWindow::zablokujGUIdlaSerwera()
 {
     ui->comboBox->setEnabled(false);
@@ -321,12 +389,32 @@ void MainWindow::zablokujGUIdlaSerwera()
     ui->pushButton_startServer->setEnabled(false);
     ui->pushButton_connectClient->setEnabled(false);
 
+    ui->ArxEdit->setEnabled(true);      // modyfikacja modelu ARX
+    ui->BTNTRYB->setEnabled(true);
 
+}
+void MainWindow::odblokujGUIObiektuLokalnie()
+{
+    ui->comboBox->setEnabled(true);
+    ui->SPINBOXAMPLITUDA->setEnabled(true);
+    ui->SPINBOXINTERWAL->setEnabled(true);
+    ui->SPINBOXWYPELNIENIE->setEnabled(true);
+    ui->SPINBOXOKRES->setEnabled(true);
+    ui->SPINBOXKD->setEnabled(true);
+    ui->SPINBOXKI->setEnabled(true);
+    ui->SPINBOXKP->setEnabled(true);
+    ui->ResetCalk->setEnabled(true);
+    ui->ResetRurz->setEnabled(true);
+    ui->comboBox_2->setEnabled(true);
+
+    ui->START->setEnabled(true);
+    ui->STOP->setEnabled(true);
+    ui->RESET->setEnabled(true);
 }
 
 void MainWindow::zablokujGUIdlaKlienta()
 {
-
+    ui->ArxEdit->setEnabled(false);
 
     ui->lineEdit_ip->setEnabled(false);
     ui->lineEdit_port->setEnabled(false);
@@ -375,6 +463,9 @@ void MainWindow::on_START_clicked() {
     else {
          qDebug() << "Błąd: Obiekt `App` nie został zainicjalizowany.";
     }
+     int interval = ui->SPINBOXINTERWAL->value();
+     networkManager->sendMessage(QString("INTERWAL=%1").arg(interval));
+     networkManager->sendMessage("START");
 }
 
 void MainWindow::on_STOP_clicked() {

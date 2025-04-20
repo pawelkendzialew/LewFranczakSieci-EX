@@ -31,6 +31,9 @@ signals:
     void clientConnected();
     void commandReceived(const QString &cmd);
 
+    void receivedU(double u);
+    void receivedY(double y);
+
 private slots:
     void onNewConnection();
     void onReadyRead();
